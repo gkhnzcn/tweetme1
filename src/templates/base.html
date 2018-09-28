@@ -1,0 +1,72 @@
+{% load static %}
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <title>{% block title %}Tweetme.co{% endblock title %}</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+    
+    <!-- Bootstrap -->
+    <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
+    
+    <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" > -->
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+   
+      
+    <style>
+    .red-color {
+      color: red;
+    }
+    .grey-color {
+      color: #ccc;
+    }
+    </style>
+  </head>
+  <body>
+    {% include "navbar.html" %}
+    <div class='container'>
+      
+      {% block content %}
+      {% endblock content %}
+
+    </div>
+
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    
+
+    {% block script %}{% endblock script %}
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script>
+      $(document).ready(function(){
+        var typingTimer;
+        var doneInterval = 800; // in ms
+        var searchInput = $("#navbar-search-form input[type=text]")
+        var searchQuery;
+        searchInput.keyup(function(event){
+            searchQuery =  $(this).val()
+            clearTimeout(typingTimer)
+            typingTimer = setTimeout(doneSearchTyping, doneInterval)
+            
+        })
+         searchInput.keydown(function(event){
+            clearTimeout(typingTimer)  
+        })
+        function doneSearchTyping(){
+          if (searchQuery){
+            // do search
+            var url = '/tweets/search/?q=' + searchQuery
+            document.location.href = url;
+          }
+        }
+      })
+    </script>
+    
+       
+  </body>
+
+  
+</html>
